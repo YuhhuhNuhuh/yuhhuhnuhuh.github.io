@@ -23,17 +23,15 @@ var init = function (window) {
     // Code to draw a circle
     function drawCircle() {
       circle = draw.randomCircleInArea(canvas, true, true, "#999", 2);
-      physikz.addRandomVelocity(circle, canvas);
+      physikz.addRandomVelocity(circle, canvas, 30, 30);
       view.addChild(circle);
       circles.push(circle);
     }
 
     // TODO 3 / 7 : Call the drawCircle() function
-    drawCircle();
-    drawCircle();
-    drawCircle();
-    drawCircle();
-    drawCircle();
+    for (var loopsCompleted = 0; loopsCompleted < 100; loopsCompleted++) {
+      drawCircle();
+    }
 
     ////////////////////////////////////////////////////////////
     ///////////////// PROGRAM LOGIC ////////////////////////////
@@ -46,17 +44,15 @@ var init = function (window) {
         */
     function update() {
       // TODO 4 : Update the circle's position //
-      physikz.updatePosition(drawCircle[0]);
-      physikz.updatePosition(drawCircle[1]);
-      physikz.updatePosition(drawCircle[2]);
-      physikz.updatePosition(drawCircle[3]);
-      physikz.updatePosition(drawCircle[4]);
+      for (var i = 0; i < circles.length; i++) {
+        var eachCircle = circles[i];
+        physikz.updatePosition(eachCircle);
+        game.checkCirclePosition(eachCircle);
+        physikz.updatePosition(circles[i]);
+        game.checkCirclePosition(circles[i]);
+      }
       // TODO 5 / 10 : Call game.checkCirclePosition() on your circles.
-      game.checkCirclePosition(drawCircle[0]);
-      game.checkCirclePosition(drawCircle[1]);
-      game.checkCirclePosition(drawCircle[2]);
-      game.checkCirclePosition(drawCircle[3]);
-      game.checkCirclePosition(drawCircle[4]);
+      // made a loop
       // TODO 9 : Iterate over the array
     }
 
@@ -72,6 +68,15 @@ var init = function (window) {
       }
 
       // TODO 6 : YOUR CODE STARTS HERE //////////////////////
+      if (circle.y > canvas.height) {
+        circle.y = 0;
+      }
+      if (circle.x < 0) {
+        circle.x = canvas.width;
+      }
+      if (circle.y < 0) {
+        circle.y = canvas.height;
+      }
 
       // YOUR TODO 6 CODE ENDS HERE //////////////////////////
     };
